@@ -4,6 +4,9 @@ from statistics import mean
 
 cap = cv2.VideoCapture(0)
 
+palm_cascade = cv2.CascadeClassifier(r"C:\Users\chuen\Desktop\Python\image_recognition_basics\Opencv\haarcascade\palm.xml")
+fist_cascade = cv2.CascadeClassifier(r"C:\Users\chuen\Desktop\Python\image_recognition_basics\Opencv\haarcascade\fist.xml")
+
 def threshold(imageArray):
     balanceAr = []
     newAr = imageArray
@@ -36,11 +39,11 @@ while True:
 
     # cv2.line(frame, (0,0), (1000,1000), (255, 255, 255), 30) # (frame for image, start, end, color in BGR)
     cv2.rectangle(frame, (15,90), (300, 380), (0,255,0), 5)
-    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
     # Define region of interest for our hand to fit in
     #roi = frame[15:300, 90:380]
     roi = frame[90:380, 15:300]
+    gray = cv2.cvtColor(roi, cv2.COLOR_BGR2GRAY)
 
     #Using gaussian blur for clearer imaging (Test)
     blur_roi = cv2.GaussianBlur(roi, (5,5), 0)
@@ -61,10 +64,23 @@ while True:
     contours, val1 = cv2.findContours(hand_mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE)
 
     # Don't draw contours if they are smaller than a specific area
-    for contour in contours:
-        area = cv2.contourArea(contour)
-        if area > 5000:
-            cv2.drawContours(roi, contour, -1, (0, 255, 0), 3)
+    #for contour in contours:
+        #area = cv2.contourArea(contour)
+        #if area > 5000:
+            #cv2.drawContours(roi, contour, -1, (0, 255, 0), 3)
+
+    palms = palm_cascade.detectMultiScale(gray)
+    fists = fist_cascade.detectMultiScale(gray)
+
+    for (x, y, w, h) in palms:
+        font = cv2.FONT_HERSHEY_SIMPLEX
+        cv2.rectangle(roi, (x, y), (x+w, y+h), (255, 0, 0), 2)
+        cv2.putText(roi, "Palm Detected", (x-w, y-h), font, 0.5, (255, 255, 255), 5, cv2.LINE_AA)
+
+    for (x,y,w,h) in fists:
+        font = cv2.FONT_HERSHEY_SIMPLEX
+        cv2.rectangle(roi, (x, y), (x+w, y+h), (255, 0, 0), 2)
+        cv2.putText(roi, "Fist Detected", (x-w, y-h), font, 0.5, (255, 0, 0), 5, cv2.LINE_AA)
 
     cv2.imshow('roi', roi)
     #cv2.imshow('hand', hand_mask)
