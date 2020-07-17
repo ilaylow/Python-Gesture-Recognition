@@ -82,6 +82,11 @@ while True:
         cv2.rectangle(roi, (x, y), (x+w, y+h), (255, 0, 0), 2)
         cv2.putText(roi, "Fist Detected", (x-w, y-h), font, 0.5, (255, 0, 0), 5, cv2.LINE_AA)
 
+    # Resizing image with opencv
+    IMG_SIZE = 100
+    resized_image = cv2.resize(roi, (IMG_SIZE, IMG_SIZE))
+    cv2.imshow('resize', resized_image)
+
     cv2.imshow('roi', roi)
     #cv2.imshow('hand', hand_mask)
     cv2.imshow('frame', frame)
