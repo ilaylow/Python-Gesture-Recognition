@@ -9,7 +9,7 @@ DATADIR = r"C:\Users\chuen\Desktop\Python\image_recognition_basics\Python-Gestur
 
 IMG_TYPES = ["fist", "okay", "palm", "peace"]
 
-IMG_SIZE = 55
+IMG_SIZE = 70
 
 training_data = []
 

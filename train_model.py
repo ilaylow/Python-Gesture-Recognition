@@ -19,11 +19,11 @@ X = X / 255.0  # Normalise it
 model = Sequential()
 
 # Two Conv Layers
-model.add(Conv2D(64, (3,3), input_shape = X.shape[1:]))
+model.add(Conv2D(128, (3,3), input_shape = X.shape[1:]))
 model.add(Activation("relu"))  #Using rectified linear unit
 model.add(MaxPooling2D(pool_size = (2,2)))
 
-model.add(Conv2D(64, (3,3), input_shape = X.shape[1:]))
+model.add(Conv2D(128, (3,3), input_shape = X.shape[1:]))
 model.add(Activation("relu"))  #Using rectified linear unit
 model.add(MaxPooling2D(pool_size = (2,2)))
 
@@ -37,12 +37,12 @@ model.add(Dense(64))
 model.add(Activation("relu"))
 
 model.add(Dense(4))
-model.add(Activation("sigmoid"))
+model.add(Activation("softmax"))
 
 model.compile(loss = "categorical_crossentropy",
               optimizer = "adam",
               metrics = ["accuracy"])
 
-model.fit(X, np.array(Y), batch_size = 32, epochs = 20, validation_split = 0.1)
+model.fit(X, np.array(Y), batch_size = 10, epochs = 10, validation_split = 0.1)
 
-model.save('64x2-CNN-GestureRecog.model')
+model.save('128x2-CNN-GestureRecog.model')

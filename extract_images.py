@@ -9,6 +9,8 @@ IMAGE_TYPES = ['fist', 'okay', 'palm', 'peace']
 
 DATADIR = r"C:\Users\chuen\Desktop\Python\image_recognition_basics\Python-Gesture-Recognition\extracted_images"
 
+NUM_OF_IMAGES = 20
+
 counter = 0
 index = 0
 
@@ -18,7 +20,7 @@ while True:
     roi = frame[90:380, 15:300]
     gray = cv2.cvtColor(roi, cv2.COLOR_BGR2GRAY)
 
-    if counter == 10:
+    if counter == 20:
         counter = 0
         index += 1
 
@@ -37,7 +39,7 @@ while True:
         print(img_name)
         print(img_path)
 
-        IMG_SIZE = 100
+        IMG_SIZE = 70
         resize_image = cv2.resize(roi, (IMG_SIZE, IMG_SIZE))
 
         cv2.imwrite(img_path, roi)
