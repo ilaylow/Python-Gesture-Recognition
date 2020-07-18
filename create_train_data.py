@@ -2,6 +2,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 import cv2
+import random
+import pickle
 
 DATADIR = r"C:\Users\chuen\Desktop\Python\image_recognition_basics\Python-Gesture-Recognition\extracted_images"
 
@@ -24,4 +26,21 @@ for type in IMG_TYPES:
         except Exception as e:
             pass
 
+random.shuffle(training_data)
 # Time to pickle training data
+X = []
+Y = []
+
+for features, label in training_data:
+    X.append(features)
+    Y.append(label)
+
+X = np.array(X).reshape(-1, IMG_SIZE, IMG_SIZE, 1)
+
+file_out = open("X.pickle", "wb")
+pickle.dump(X, file_out)
+file_out.close()
+
+file_out = open("Y.pickle", "wb")
+pickle.dump(Y, file_out)
+file_out.close()
